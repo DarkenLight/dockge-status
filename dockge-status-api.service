@@ -1,0 +1,14 @@
+[Unit]
+Description=Dockge Status API for GetHomepage/Dockge
+After=network.target docker.service
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/share/dockge-status/docker-status-api.py
+WorkingDirectory=/usr/share/dockge-status
+User=root
+Restart=always
+Environment="DOCKGE_STATUS_API_PORT=9000"
+Environment="DOCKGE_STATUS_SCRIPT_PATH=/usr/share/dockge-status/docker-status.sh"
+
+[Install]
+WantedBy=multi-user.target
