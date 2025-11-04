@@ -6,6 +6,8 @@ for use with [GetHomepage](https://gethomepage.dev) or similar
 dashboards.\
 Ideal for environments using Dockge that do not have a native API.
 
+<img width="424" height="136" alt="dockge" src="https://github.com/user-attachments/assets/29e8f033-95de-48b2-809a-c9aa68c7e61b" />
+
 ------------------------------------------------------------------------
 
 ## Features
