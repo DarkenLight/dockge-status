@@ -82,7 +82,7 @@ curl http://localhost:9000/summary
 Check logs with:
 
 ``` bash
-journalctl -u dockge-status -f
+journalctl -u dockge-status-api -f
 ```
 
 ------------------------------------------------------------------------
