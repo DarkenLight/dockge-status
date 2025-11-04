@@ -75,10 +75,10 @@ journalctl -u dockge-status -f
 ## Uninstall
 
 ``` bash
-systemctl stop dockge-status
-systemctl disable dockge-status
+systemctl stop dockge-status-api
+systemctl disable dockge-status-api
 rm -rf /usr/share/dockge-status
-rm /etc/systemd/system/dockge-status.service
+rm /etc/systemd/system/dockge-status-api.service
 systemctl daemon-reload
 ```
 
