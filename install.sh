@@ -4,7 +4,7 @@
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/<YOUR_GITHUB_USERNAME>/dockge-status/main"
+REPO_URL="https://raw.githubusercontent.com/DarkenLight/dockge-status/main"
 INSTALL_DIR="/usr/share/dockge-status"
 SERVICE_FILE="/etc/systemd/system/dockge-status-api.service"
 
