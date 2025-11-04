@@ -32,19 +32,13 @@ automatically
 
 ## Default Configuration
 
-**Environment Variables (set in
-`/usr/share/dockge-status/.env`):**
+**Environment Variables (set in `/usr/share/dockge-status/.env`):**
 
-  ---------------------------------------------------------------------------------------------------------------
-  Variable                      Description                  Default
-  ----------------------------- ---------------------------- ----------------------------------------------------
-  `DOCKGE_STATUS_PORT`          Port number to serve the API `9000`
+| Variable                  | Description                                  | Default                                                   |
+|----------------------------|----------------------------------------------|-----------------------------------------------------------|
+| `DOCKGE_STATUS_PORT`       | Port number to serve the API                 | `9000`                                                    |
+| `DOCKGE_STATUS_SCRIPT_PATH`| Path to the bash script that collects Docker info | `/usr/share/dockge-status/docker-status.sh` |
 
-  `DOCKGE_STATUS_SCRIPT_PATH`   Path to the bash script that `/usr/share/dockge-status/docker-status.sh`
-                                collects Docker info         
-  ---------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------
 
 ## API Usage
 
