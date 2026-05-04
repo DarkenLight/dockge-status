@@ -8,6 +8,10 @@ REPO_URL="https://raw.githubusercontent.com/DarkenLight/dockge-status/main"
 INSTALL_DIR="/usr/share/dockge-status"
 SERVICE_FILE="/etc/systemd/system/dockge-status-api.service"
 
+echo "📦 Installing jq if not installed"
+sudo apt update
+command -v jq >/dev/null 2>&1 || apt install -y jq
+
 echo "📦 Installing Dockge Status API..."
 
 # Create install directory

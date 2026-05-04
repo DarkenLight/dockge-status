@@ -18,6 +18,10 @@ Ideal for environments using Dockge that do not have a native API.
 -   Runs as a `systemd` service (auto-start at boot)
 
 ------------------------------------------------------------------------
+## Dependencies:
+- jq
+- curl
+- docker (or docker-cli depending on your implementation)
 
 ## Installation
 
