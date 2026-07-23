@@ -1,17 +1,45 @@
 #!/bin/bash
 # Dockge Status API Uninstaller
 # Stops, disables, and removes all installed files
+#
+# Usage:
+#   sudo ./uninstall.sh              # Interactive (asks for confirmation)
+#   curl ... | bash                  # Non-interactive (skips prompt when piped)
+#   sudo ./uninstall.sh -y           # Force skip confirmation
 
 set -e
 
 INSTALL_DIR="/usr/share/dockge-status"
 SERVICE_FILE="/etc/systemd/system/dockge-status-api.service"
 
-echo "⚠️  This will remove Dockge Status API completely."
-read -rp "Are you sure you want to continue? [y/N] " confirm
-if [[ ! "$confirm" =~ ^[yY](es)?$ ]]; then
-    echo "Aborted."
-    exit 1
+# Detect if running interactively (has a real terminal) or piped
+if [ -t 0 ]; then
+    # Interactive terminal — ask for confirmation
+    echo "⚠️  This will remove Dockge Status API completely."
+    read -rp "Are you sure you want to continue? [y/N] " confirm
+    if [[ ! "$confirm" =~ ^[yY](es)?$ ]]; then
+        echo "Aborted."
+        exit 1
+    fi
+else
+    # Piped / non-interactive — skip prompt unless -y was passed
+    if [ "$1" != "-y" ]; then
+        # Still try to read from /dev/tty if available
+        if exec </dev/tty 2>/dev/null; then
+            echo "⚠️  This will remove Dockge Status API completely."
+            read -rp "Are you sure you want to continue? [y/N] " confirm
+            if [[ ! "$confirm" =~ ^[yY](es)?$ ]]; then
+                echo "Aborted."
+                exit 1
+            fi
+        else
+            echo "⚠️  Non-interactive mode detected."
+            echo "   To force uninstall without confirmation, run:"
+            echo "     curl -fsSL https://raw.githubusercontent.com/DarkenLight/dockge-status/main/uninstall.sh | bash -s -- -y"
+            echo "Aborted."
+            exit 1
+        fi
+    fi
 fi
 
 # --- Stop and disable the service ---

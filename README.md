@@ -120,12 +120,20 @@ journalctl -u dockge-status-api -f
 ## Uninstall
 
 ``` bash
+# Interactive (will ask for confirmation)
 sudo ./uninstall.sh
+
+# Force uninstall without confirmation
+sudo ./uninstall.sh -y
 ```
 
 Or fetch and run directly from the repository:
 ``` bash
+# Interactive (will ask for confirmation if possible)
 curl -fsSL https://raw.githubusercontent.com/DarkenLight/dockge-status/main/uninstall.sh | bash
+
+# Force uninstall without confirmation (non-interactive)
+curl -fsSL https://raw.githubusercontent.com/DarkenLight/dockge-status/main/uninstall.sh | bash -s -- -y
 ```
 
 The script will:
@@ -134,6 +142,8 @@ The script will:
   - Remove the systemd unit file
   - Reload systemd daemon
   - Verify the service is no longer active
+
+> **Note:** When piped via `curl ... | bash`, the script runs in non-interactive mode. Use the `-y` flag to skip the confirmation prompt.
 
 ------------------------------------------------------------------------
 
