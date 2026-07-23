@@ -16,6 +16,11 @@ Ideal for environments using Dockge that do not have a native API.
 -   Reads Docker container data via a Bash script
 -   Fully self-hosted, minimal dependencies
 -   Runs as a `systemd` service (auto-start at boot)
+-   **In-memory caching** with configurable TTL (default: 5s) to reduce Docker daemon load
+-   **CORS headers** enabled for browser-based dashboards
+-   **Threaded HTTP server** for concurrent request handling
+-   **Graceful shutdown** on SIGTERM/SIGINT
+-   **Proper logging** with timestamps to stdout (integrates with journalctl)
 
 ------------------------------------------------------------------------
 ## Dependencies:
@@ -42,8 +47,9 @@ automatically
 
 | Variable                  | Description                                  | Default                                                   |
 |----------------------------|----------------------------------------------|-----------------------------------------------------------|
-| `DOCKGE_STATUS_PORT`       | Port number to serve the API                 | `9000`                                                    |
+| `DOCKGE_STATUS_API_PORT`   | Port number to serve the API                 | `9000`                                                    |
 | `DOCKGE_STATUS_SCRIPT_PATH`| Path to the bash script that collects Docker info | `/usr/share/dockge-status/docker-status.sh` |
+| `DOCKGE_STATUS_CACHE_TTL`  | Cache TTL in seconds (0 to disable)          | `5`                                                       |
 
 If you want to customize these values, edit the systemd unit file:
 
@@ -63,11 +69,29 @@ sudo systemctl restart dockge-status-api
 
 ## API Usage
 
-Once running, you can access:
+Once running, you can access the following endpoints:
+
+| Endpoint | Description |
+|---|---|
+| `/info` | Full JSON array of all containers |
+| `/summary` | Aggregated stack summary (total, running, unhealthy) |
+| `/health` | Health check — returns `{"status": "ok"}` |
+| `/container/<name>` | Details for a single container by name |
+
+### Examples
 
 ``` bash
+# All containers
 curl http://localhost:9000/info
+
+# Stack summary
 curl http://localhost:9000/summary
+
+# Health check
+curl http://localhost:9000/health
+
+# Single container by name
+curl http://localhost:9000/container/piwigo
 ```
 
 **Output Example:**
@@ -96,12 +120,20 @@ journalctl -u dockge-status-api -f
 ## Uninstall
 
 ``` bash
-systemctl stop dockge-status-api
-systemctl disable dockge-status-api
-rm -rf /usr/share/dockge-status
-rm /etc/systemd/system/dockge-status-api.service
-systemctl daemon-reload
+sudo ./uninstall.sh
 ```
+
+Or fetch and run directly from the repository:
+``` bash
+curl -fsSL https://raw.githubusercontent.com/DarkenLight/dockge-status/main/uninstall.sh | bash
+```
+
+The script will:
+  - Stop and disable the systemd service
+  - Remove all installed files from `/usr/share/dockge-status`
+  - Remove the systemd unit file
+  - Reload systemd daemon
+  - Verify the service is no longer active
 
 ------------------------------------------------------------------------
 
