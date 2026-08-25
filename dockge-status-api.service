@@ -1,6 +1,9 @@
 [Unit]
 Description=Dockge Status API for GetHomepage/Dockge
-After=network.target docker.service
+After=network-online.target docker.service
+Wants=network-online.target docker.service
+BindsTo=docker.service
+PartOf=docker.service
 Requires=docker.service
 
 [Service]
